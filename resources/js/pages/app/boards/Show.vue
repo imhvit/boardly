@@ -2,6 +2,7 @@
 import { useRecentBoards } from '@/composables/useResentBoards';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { onMounted } from 'vue';
+import Header from './components/Header.vue';
 
 const { addRecentBoard } = useRecentBoards();
 
@@ -22,5 +23,6 @@ onMounted(() => {
 });
 </script>
 <template>
+    <Header />
     <h1>Este es el board: {{ board.title }} - {{ board.public_id }}</h1>
 </template>
