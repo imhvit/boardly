@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('public_id')->unique();
             $table->string('title');
+            $table->text('description')->nullable();
+            $table->text('tag')->nullable();
+            $table->enum('visibility', ['public', 'private'])->default('private');
             $table->foreignId('owner_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
