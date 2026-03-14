@@ -13,4 +13,9 @@ html {
     background-color: #fafafa;
     color: #0a0a0a;
     overflow-x: hidden;
+    color-scheme: light;
+}
+
+a {
+    -webkit-user-drag: none;
 }

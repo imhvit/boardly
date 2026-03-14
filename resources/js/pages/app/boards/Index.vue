@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { router, Link } from '@inertiajs/vue3';
 import { ref, Transition } from 'vue';
 import OptionBox from '@/components/OptionBox.vue';
-import { Plus, Users, Clock, CheckCircle } from 'lucide-vue-next';
+import { Plus, Users, Calendar, CheckCircle } from 'lucide-vue-next';
 
 const openBox = ref(false);
 const boardTitle = ref('');
@@ -16,7 +16,7 @@ defineProps({
     boards: {
         type: Array,
         required: true
-    }
+    },
 });
 
 const newBoard = () => {
@@ -42,7 +42,7 @@ const newBoard = () => {
 </script>
 
 <template>
-    <div class="flex justify-between items-center mx-auto max-w-4xl">
+    <div class="flex justify-between items-center pt-4 mx-auto max-w-4xl">
         <h1 class="text-xl font-semibold text-purple-500">Mis tableros</h1>
         <div class="relative">
             <button @click="() => { openBox = !openBox; error = '' }"
@@ -66,20 +66,22 @@ const newBoard = () => {
             </Transition>
         </div>
     </div>
-    <section class="mx-auto my-4 max-w-4xl">
+    <section class="mx-auto my-4 max-w-4xl select-none">
         <ul class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
             <li v-for="board in boards" :key="board.id">
                 <Link :href="route('app.boards.show', { board: board.public_id, slug: board.title })">
                     <article class="py-3 space-y-2 rounded-2xl border bg-neutral-100 border-neutral-300">
                         <div class="px-3 space-y-2">
-                            <h3 class="text-sm font-semibold text-neutral-700 line-clamp-1">{{ board.title }}</h3>
+                            <h3 class="text-sm font-semibold select-text text-neutral-700 line-clamp-1">{{ board.title
+                            }}</h3>
                             <p class="text-sm text-neutral-500 line-clamp-2">
-                                Prueba de descripción para las tarjetas board
+                                {{ board.description }}
                             </p>
                         </div>
-                        <div class="flex justify-between items-center px-3">
-                            <span class="px-1.5 py-0.5 text-xs text-purple-500 bg-purple-200 rounded-sm">
-                                Development
+                        <div :class="['flex items-center px-3', board.tag ? ' justify-between' : ' justify-end']">
+                            <span v-if="board.tag"
+                                class="px-1.5 py-0.5 text-xs text-purple-500 bg-purple-200 rounded-sm">
+                                {{ board.tag }}
                             </span>
                             <div
                                 class="inline-flex justify-center items-center text-xs rounded-full size-5 bg-neutral-300 border-neutral-400 text-neutral-500">
@@ -91,7 +93,7 @@ const newBoard = () => {
                             <div class="flex gap-2 items-center text-neutral-500">
                                 <div class="flex relative gap-1 items-center group">
                                     <CheckCircle class="size-4" />
-                                    <span class="text-xs">5</span>
+                                    <span class="text-xs">?</span>
                                     <span
                                         class="absolute top-full left-1/2 px-1.5 py-1 mt-1 text-xs rounded-lg border shadow opacity-0 transition-opacity duration-200 -translate-x-1/2 pointer-events-none group-hover:opacity-100 border-neutral-200 bg-neutral-100">
                                         Tareas
@@ -99,7 +101,7 @@ const newBoard = () => {
                                 </div>
                                 <div class="flex relative gap-1 items-center group">
                                     <Users class="size-4" />
-                                    <span class="text-xs">3</span>
+                                    <span class="text-xs">{{ board.users_count }}</span>
                                     <span
                                         class="absolute top-full left-1/2 px-1.5 py-1 mt-1 text-xs rounded-lg border shadow opacity-0 transition-opacity duration-200 -translate-x-1/2 pointer-events-none group-hover:opacity-100 border-neutral-200 bg-neutral-100">
                                         Miembros
@@ -108,7 +110,7 @@ const newBoard = () => {
 
                             </div>
                             <div class="flex relative gap-1 items-center text-neutral-500 group">
-                                <Clock class="size-4" />
+                                <Calendar class="size-4" />
                                 <span class="text-xs">
                                     {{
                                         new Date(board.created_at).toLocaleDateString('es-ES', {

@@ -53,7 +53,7 @@ const submit = () => {
                                 class="relative p-2 pr-10 max-w-xs text-sm text-purple-500 rounded-lg border border-purple-500/60 focus-within:border-purple-500 focus-within:bg-purple-500/5">
                                 <input required v-model="form.password" :type="togglePassword ? 'text' : 'password'"
                                     id="password" name="password" autocomplete="new-password" placeholder="********"
-                                    minlength="8" class="w-full outline-none placeholder:text-purple-500/60" />
+                                    class="w-full outline-none placeholder:text-purple-500/60" />
                                 <button type="button"
                                     class="absolute right-2 top-1/2 p-1 rounded-md -translate-y-1/2 hover:bg-purple-500/10"
                                     @click="togglePassword = !togglePassword">

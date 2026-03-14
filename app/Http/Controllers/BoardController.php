@@ -15,18 +15,28 @@ class BoardController extends Controller
             'title' => 'required|string|max:100',
         ]);
 
-        Board::create([
+        $board = Board::create([
             'title' => $request->title,
-            'owner_id' => Auth::user()->id,
+            'description' => $request->description ?? 'Mi nuevo espacio de trabajo 😊',
         ]);
+
+        $board->users()->attach(Auth::id());
 
         return redirect()->route('app.boards.index');
     }
-    public function show(string $board)
+    public function show(Request $request, string $board)
     {
+        $view = $request->query('view', 'board');
+        $allowed = ['overview', 'board', 'list', 'table', 'timeline'];
+
+        if (!in_array($view, $allowed)) {
+            $view = 'board';
+        }
+
         $board = Board::where('public_id', $board)->first();
         return Inertia::render('app/boards/Show', [
-            'board' => $board
+            'board' => $board,
+            'view' => $view,
         ]);
     }
     public function update(Request $request, string $id) {}

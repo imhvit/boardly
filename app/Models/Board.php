@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Board extends Model
 {
     protected $fillable = [
         'title',
-        'owner_id',
+        'description',
+        'tag',
+        'visibility',
     ];
 
     protected static function booted()
@@ -22,5 +25,14 @@ class Board extends Model
 
             $board->public_id = $id;
         });
+
+        static::creating(function ($board) {
+            $board->owner_id = Auth::id();
+        });
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
 }

@@ -14,7 +14,7 @@ class AppController extends Controller
 
     public function boards()
     {
-        $boards = Board::take(10)->get();
+        $boards = Board::withCount('users')->take(15)->get();
         return Inertia::render('app/boards/Index', [
             'boards' => $boards,
         ]);
