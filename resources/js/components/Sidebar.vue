@@ -2,7 +2,7 @@
 import BoardlyIcon from '@/icons/svg/BoardlyIcon.vue';
 import { Link } from '@inertiajs/vue3';
 import { SIDEBAR_LINKS } from '@/consts/sidebar';
-import { useRecentBoards } from '@/composables/useResentBoards';
+import { useRecentBoards } from '@/composables/useRecentBoards';
 
 const { recentBoards } = useRecentBoards();
 </script>
