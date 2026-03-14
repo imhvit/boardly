@@ -4,6 +4,7 @@ import "../css/app.css";
 import { ZiggyVue } from "ziggy-js";
 
 createInertiaApp({
+    title: (title) => (title ? `${title} - Boardly` : "Boardly"),
     resolve: (name) => {
         const pages = import.meta.glob("./pages/**/*.vue", { eager: true });
         return pages[`./pages/${name}.vue`];

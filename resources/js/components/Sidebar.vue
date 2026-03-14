@@ -8,7 +8,7 @@ const { recentBoards } = useRecentBoards();
 </script>
 
 <template>
-    <div class="fixed w-[250px] h-full">
+    <div class="fixed w-[250px] h-full z-99 select-none">
         <div class="h-full border-r shadow-lg bg-neutral-100 border-r-neutral-300">
             <aside class="px-4 pt-4 pb-2">
                 <h2 class="inline-flex items-center text-xl font-semibold text-purple-500">
