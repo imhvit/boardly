@@ -6,7 +6,7 @@ const recentBoards = ref(JSON.parse(localStorage.getItem(KEY)) || []);
 
 export function useRecentBoards() {
     function addRecentBoard(board) {
-        const filtered = recentBoards.value.filter((b) => b.id !== board.id);
+        const filtered = recentBoards.value.filter((b) => b.public_id !== board.public_id);
 
         filtered.unshift(board);
 

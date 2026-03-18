@@ -25,11 +25,11 @@ const { recentBoards } = useRecentBoards();
                         </Link>
                     </li>
                 </ul>
-                <div class="my-2 w-full h-px bg-neutral-300"></div>
+                <div class="w-full h-px my-2 bg-neutral-300"></div>
                 <ul class="px-4">
                     <span class="flex mb-1 text-xs font-medium text-neutral-500">Recientes</span>
-                    <li v-for="board in recentBoards" :key="board.id">
-                        <Link :href="route('app.boards.show', { board: board.id, slug: board.slug })"
+                    <li v-for="board in recentBoards" :key="board.public_id">
+                        <Link :href="route('app.boards.show', { public_id: board.public_id, slug: board.slug })"
                             class="flex px-2 py-1.5 text-sm font-medium rounded-lg hover:bg-purple-200 text-neutral-700 hover:text-purple-500">
                             {{ board.slug }}
                         </Link>

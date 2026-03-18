@@ -42,7 +42,7 @@ const newBoard = () => {
 </script>
 
 <template>
-    <div class="flex justify-between items-center pt-4 mx-auto max-w-4xl">
+    <div class="flex items-center justify-between max-w-4xl pt-4 mx-auto">
         <h1 class="text-xl font-semibold text-purple-500">Mis tableros</h1>
         <div class="relative">
             <button @click="() => { openBox = !openBox; error = '' }"
@@ -54,11 +54,11 @@ const newBoard = () => {
                 <OptionBox v-if="openBox">
                     <div class="flex flex-col gap-y-1">
                         <input required v-model="boardTitle" type="text" placeholder="Nombre del tablero"
-                            class="px-2 py-1 w-full text-sm rounded-lg border outline-none text-neutral-500 border-neutral-300 placeholder:text-neutral-400 bg-neutral-200" />
+                            class="w-full px-2 py-1 text-sm border rounded-lg outline-none text-neutral-500 border-neutral-300 placeholder:text-neutral-400 bg-neutral-200" />
                         <span v-if="error" class="text-xs text-red-500">{{ error }}</span>
                     </div>
                     <button @click="newBoard" :disabled="loading"
-                        class="px-2 py-1 w-full text-sm font-medium text-white bg-purple-500 rounded-lg cursor-pointer disabled:cursor-not-allowed disabled:opacity-50">
+                        class="w-full px-2 py-1 text-sm font-medium text-white bg-purple-500 rounded-lg cursor-pointer disabled:cursor-not-allowed disabled:opacity-50">
                         <span v-if="loading">Creando...</span>
                         <span v-else>Crear</span>
                     </button>
@@ -66,14 +66,14 @@ const newBoard = () => {
             </Transition>
         </div>
     </div>
-    <section class="mx-auto my-4 max-w-4xl select-none">
+    <section class="max-w-4xl mx-auto my-4 select-none">
         <ul class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
             <li v-for="board in boards" :key="board.id">
-                <Link :href="route('app.boards.show', { board: board.public_id, slug: board.title })">
-                    <article class="py-3 space-y-2 rounded-2xl border bg-neutral-100 border-neutral-300">
+                <Link :href="route('app.boards.show', { public_id: board.public_id, slug: board.title })">
+                    <article class="py-3 space-y-2 border rounded-2xl bg-neutral-100 border-neutral-300">
                         <div class="px-3 space-y-2">
                             <h3 class="text-sm font-semibold select-text text-neutral-700 line-clamp-1">{{ board.title
-                            }}</h3>
+                                }}</h3>
                             <p class="text-sm text-neutral-500 line-clamp-2">
                                 {{ board.description }}
                             </p>
@@ -84,14 +84,14 @@ const newBoard = () => {
                                 {{ board.tag }}
                             </span>
                             <div
-                                class="inline-flex justify-center items-center text-xs rounded-full size-5 bg-neutral-300 border-neutral-400 text-neutral-500">
+                                class="inline-flex items-center justify-center text-xs rounded-full size-5 bg-neutral-300 border-neutral-400 text-neutral-500">
                                 Y
                             </div>
                         </div>
-                        <div class="flex mt-2 w-full h-px bg-neutral-200"></div>
-                        <div class="flex gap-2 justify-between items-center px-3">
-                            <div class="flex gap-2 items-center text-neutral-500">
-                                <div class="flex relative gap-1 items-center group">
+                        <div class="flex w-full h-px mt-2 bg-neutral-200"></div>
+                        <div class="flex items-center justify-between gap-2 px-3">
+                            <div class="flex items-center gap-2 text-neutral-500">
+                                <div class="relative flex items-center gap-1 group">
                                     <CheckCircle class="size-4" />
                                     <span class="text-xs">?</span>
                                     <span
@@ -99,7 +99,7 @@ const newBoard = () => {
                                         Tareas
                                     </span>
                                 </div>
-                                <div class="flex relative gap-1 items-center group">
+                                <div class="relative flex items-center gap-1 group">
                                     <Users class="size-4" />
                                     <span class="text-xs">{{ board.users_count }}</span>
                                     <span
@@ -109,7 +109,7 @@ const newBoard = () => {
                                 </div>
 
                             </div>
-                            <div class="flex relative gap-1 items-center text-neutral-500 group">
+                            <div class="relative flex items-center gap-1 text-neutral-500 group">
                                 <Calendar class="size-4" />
                                 <span class="text-xs">
                                     {{
