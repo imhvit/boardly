@@ -34,7 +34,7 @@ const initialData = [
                 ],
                 assigned_to: {
                     id: 99,
-                    name: 'John Doe',
+                    name: 'Yosif',
                     avatar: 'https://ui-avatars.com/api/?name=John+Doe'
                 }
             },
