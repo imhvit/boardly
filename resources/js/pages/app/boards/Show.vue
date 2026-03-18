@@ -16,18 +16,18 @@ const props = defineProps({
 
 const initialData = [
     {
-        id: '01ht68m9x2a...', // Recomendación: Usa UUIDv4 o ULID para IDs públicos
+        id: '01ht68m9x2a...',
         board_id: '01ht68m...',
         title: 'To Do',
-        order: 1000, // Carga posicional (Explicado abajo)
+        order: 1000,
         tasks: [
             {
                 id: '01ht68k3p...',
                 column_id: '01ht68m9x2a...',
-                title: 'Diseñar esquema de base de datos',
+                title: 'Diseñar esquema de base de esquema de base de esquema de base de esquema de base de  esquema de base de esquema de base de  esquema de base de  esquema de base de datos',
                 description: 'Crear migraciones para Boards, Columns y Tasks.',
                 order: 1000,
-                date: '15 abr', // Formateado desde el backend (created_at o due_date)
+                date: '15 abr',
                 labels: [
                     { id: 1, name: 'Arquitectura', color: 'purple' },
                     { id: 2, name: 'Backend', color: 'blue' }
@@ -98,12 +98,13 @@ onMounted(() => {
     <Head :title="board.title" />
     <Header :board-id="board.public_id" :title="board.title" :description="board.description" :view="view" />
 
-    <div class="flex overflow-x-auto gap-2 px-4 pb-2 h-full pt-34" @dragover.prevent @drop="onDrop"
+    <div class="flex h-full gap-2 px-4 pb-2 overflow-x-auto pt-34" @dragover.prevent @drop.prevent="onDrop"
         @dragend="resetDrag">
+
         <template v-for="(column, index) in columns" :key="column.id">
             <div v-if="placeholder.type === 'column' && placeholder.index === index"
                 :style="{ width: placeholder.width + 'px' }"
-                class="h-10 bg-purple-200 rounded-xl border border-purple-400 border-dashed transition-all shrink-0">
+                class="h-10 transition-all bg-purple-200 border border-purple-400 border-dashed rounded-xl shrink-0">
             </div>
             <CardContainer :column="column" :placeholder="placeholder" @start-drag="onDragStart" @drag-end="resetDrag"
                 @task-hover="onTaskDragOver" @col-hover="onColumnDragOver" @drop-item="onDrop" />
@@ -111,8 +112,7 @@ onMounted(() => {
 
         <div v-if="placeholder.type === 'column' && placeholder.index === columns.length"
             :style="{ width: placeholder.width + 'px' }"
-            class="h-10 bg-purple-200 rounded-xl border border-purple-400 border-dashed transition-all shrink-0">
+            class="h-10 transition-all bg-purple-200 border border-purple-400 border-dashed rounded-xl shrink-0">
         </div>
-
     </div>
 </template>
