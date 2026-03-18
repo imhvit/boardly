@@ -12,13 +12,13 @@ class Column extends Model
         'board_id',
     ];
 
-    public function boards()
+    public function board()
     {
         return $this->belongsTo(Board::class);
     }
 
-    public function tasks()
+    public function cards()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Card::class);
     }
 }

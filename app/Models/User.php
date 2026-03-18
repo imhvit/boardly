@@ -51,8 +51,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Board::class);
     }
 
-    public function tasks()
+    public function cards()
     {
-        return $this->belongsToMany(Task::class);
+        return $this->belongsToMany(Card::class);
     }
 }
