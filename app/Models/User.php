@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Board::class);
     }
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
+    }
 }
