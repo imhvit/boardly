@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('position')->default(0);
             $table->foreignId('board_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
+
+            $table->unique(['board_id', 'position']);
         });
     }
 

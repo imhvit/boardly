@@ -23,8 +23,8 @@ export function useDrag(initialColumns) {
         };
     };
 
-    const onTaskDragOver = (e, targetIndex, colId) => {
-        if (!dragPayload.value || dragPayload.value.type !== "task") return;
+    const onCardDragOver = (e, targetIndex, colId) => {
+        if (!dragPayload.value || dragPayload.value.type !== "card") return;
 
         const rect = e.currentTarget.getBoundingClientRect();
         const midPoint = rect.top + rect.height / 2;
@@ -33,7 +33,7 @@ export function useDrag(initialColumns) {
 
         if (dragPayload.value.fromColId === colId) {
             const col = columns.value.find((c) => c.id === colId);
-            const originalIndex = col.tasks.findIndex(
+            const originalIndex = col.cards.findIndex(
                 (t) => t.id === dragPayload.value.data.id,
             );
 
@@ -53,7 +53,7 @@ export function useDrag(initialColumns) {
         }
 
         placeholder.value = {
-            type: "task",
+            type: "card",
             colId,
             index: insertIndex,
             height: dragPayload.value.height,
@@ -63,15 +63,15 @@ export function useDrag(initialColumns) {
     const onColumnDragOver = (e, targetColId) => {
         if (!dragPayload.value) return;
 
-        if (dragPayload.value.type === "task") {
+        if (dragPayload.value.type === "card") {
             if (placeholder.value.colId !== targetColId) {
                 const col = columns.value.find((c) => c.id === targetColId);
 
                 if (dragPayload.value.fromColId === targetColId) {
-                    const originalIndex = col.tasks.findIndex(
+                    const originalIndex = col.cards.findIndex(
                         (t) => t.id === dragPayload.value.data.id,
                     );
-                    if (originalIndex === col.tasks.length - 1) {
+                    if (originalIndex === col.cards.length - 1) {
                         placeholder.value = {
                             type: null,
                             colId: null,
@@ -84,9 +84,9 @@ export function useDrag(initialColumns) {
                 }
 
                 placeholder.value = {
-                    type: "task",
+                    type: "card",
                     colId: targetColId,
-                    index: col.tasks.length,
+                    index: col.cards.length,
                     height: dragPayload.value.height,
                 };
             }
@@ -134,16 +134,16 @@ export function useDrag(initialColumns) {
         const { type, data, fromColId } = dragPayload.value;
         const { colId: toColId, index: toIndex } = placeholder.value;
 
-        if (type === "task") {
+        if (type === "card") {
             const fromCol = columns.value.find((c) => c.id === fromColId);
             const toCol = columns.value.find((c) => c.id === toColId);
-            const taskIndex = fromCol.tasks.findIndex((t) => t.id === data.id);
+            const cardIndex = fromCol.cards.findIndex((t) => t.id === data.id);
 
-            if (taskIndex > -1) {
-                const [task] = fromCol.tasks.splice(taskIndex, 1);
+            if (cardIndex > -1) {
+                const [card] = fromCol.cards.splice(cardIndex, 1);
                 let finalIndex = toIndex;
-                if (fromColId === toColId && taskIndex < toIndex) finalIndex--;
-                toCol.tasks.splice(finalIndex, 0, task);
+                if (fromColId === toColId && cardIndex < toIndex) finalIndex--;
+                toCol.cards.splice(finalIndex, 0, card);
             }
         } else if (type === "column") {
             const colIndex = columns.value.findIndex((c) => c.id === data.id);
@@ -174,7 +174,7 @@ export function useDrag(initialColumns) {
         dragPayload,
         placeholder,
         onDragStart,
-        onTaskDragOver,
+        onCardDragOver,
         onColumnDragOver,
         onDrop,
         resetDrag,

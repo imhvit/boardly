@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Pest\Support\Str;
 
-class Task extends Model
+class Card extends Model
 {
     protected $fillable = [
         'title',
@@ -14,7 +16,19 @@ class Task extends Model
         'column_id'
     ];
 
-    public function columns()
+    protected static function booted()
+    {
+        static::creating(function ($card) {
+            do {
+                $id = Str::random(8);
+            } while (self::where('public_id', $id)->exists());
+
+            $card->public_id = $id;
+            $card->owner_id = Auth::id();
+        });
+    }
+
+    public function column()
     {
         return $this->belongsTo(Column::class);
     }

@@ -24,7 +24,7 @@ class BoardController extends Controller
 
         return redirect()->route('app.boards.index');
     }
-    public function show(Request $request, string $board)
+    public function show(Request $request, $public_id)
     {
         $view = $request->query('view', 'board');
         $allowed = ['overview', 'board', 'list', 'table', 'timeline'];
@@ -33,10 +33,15 @@ class BoardController extends Controller
             $view = 'board';
         }
 
-        $board = Board::where('public_id', $board)->first();
+        $board = Board::where('public_id', $public_id)->first();
+        $board->load(['columns' => function ($q) {
+            $q->orderBy('position')->with('cards');
+        }]);
+
         return Inertia::render('app/boards/Show', [
             'board' => $board,
             'view' => $view,
+            'activeCard' => null,
         ]);
     }
     public function update(Request $request, string $id) {}

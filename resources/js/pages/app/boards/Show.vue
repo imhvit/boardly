@@ -20,7 +20,7 @@ const initialData = [
         board_id: '01ht68m...',
         title: 'To Do',
         order: 1000,
-        tasks: [
+        cards: [
             {
                 id: '01ht68k3p...',
                 column_id: '01ht68m9x2a...',
@@ -57,7 +57,7 @@ const initialData = [
         board_id: '01ht68m...',
         title: 'In Progress',
         order: 2000,
-        tasks: [
+        cards: [
             {
                 id: '01ht68q9m...',
                 column_id: '01ht68p1z...',
@@ -81,22 +81,22 @@ const initialData = [
         board_id: '01ht68m...',
         title: 'Done',
         order: 3000,
-        tasks: []
+        cards: []
     }
 ];
 
 const { addRecentBoard } = useRecentBoards();
-const { columns, placeholder, onDragStart, onTaskDragOver, onColumnDragOver, onDrop, resetDrag } = useDrag(initialData);
+const { columns, placeholder, onDragStart, onCardDragOver, onColumnDragOver, onDrop, resetDrag } = useDrag(initialData);
 
 onMounted(() => {
-    addRecentBoard({ id: props.board.public_id, slug: props.board.title });
+    addRecentBoard({ public_id: props.board.public_id, slug: props.board.title });
 });
 </script>
 
 <template>
 
     <Head :title="board.title" />
-    <Header :board-id="board.public_id" :title="board.title" :description="board.description" :view="view" />
+    <Header :public-id="board.public_id" :slug="board.title" :description="board.description" :view="view" />
 
     <div class="flex h-full gap-2 px-4 pb-2 overflow-x-auto pt-34" @dragover.prevent @drop.prevent="onDrop"
         @dragend="resetDrag">
@@ -107,7 +107,7 @@ onMounted(() => {
                 class="h-10 transition-all bg-purple-200 border border-purple-400 border-dashed rounded-xl shrink-0">
             </div>
             <CardContainer :column="column" :placeholder="placeholder" @start-drag="onDragStart" @drag-end="resetDrag"
-                @task-hover="onTaskDragOver" @col-hover="onColumnDragOver" @drop-item="onDrop" />
+                @card-hover="onCardDragOver" @col-hover="onColumnDragOver" @drop-item="onDrop" />
         </template>
 
         <div v-if="placeholder.type === 'column' && placeholder.index === columns.length"

@@ -1,5 +1,5 @@
 <script setup>
-import Task from "./Task.vue";
+import Card from "./Card.vue";
 import { Plus, MoreHorizontal } from "lucide-vue-next";
 
 defineProps({
@@ -7,7 +7,7 @@ defineProps({
     placeholder: Object
 });
 
-const emit = defineEmits(['start-drag', 'task-hover', 'col-hover', 'drop-item', 'drag-end']);
+const emit = defineEmits(['start-drag', 'card-hover', 'col-hover', 'drop-item', 'drag-end']);
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const emit = defineEmits(['start-drag', 'task-hover', 'col-hover', 'drop-item', 
                 <h2 class="px-2 text-sm font-medium text-neutral-700">{{ column.title }}</h2>
                 <span
                     class="inline-flex items-center justify-center w-4 h-3 text-xs font-medium rounded-full select-none text-neutral-700 bg-neutral-200">
-                    {{ column.tasks.length }}
+                    {{ column.cards.length }}
                 </span>
             </div>
 
@@ -38,18 +38,18 @@ const emit = defineEmits(['start-drag', 'task-hover', 'col-hover', 'drop-item', 
         </div>
 
         <div class="flex overflow-y-auto flex-col gap-2 min-h-[40px] cursor-default">
-            <template v-for="(task, index) in column.tasks" :key="task.id">
-                <div v-if="placeholder.type === 'task' && placeholder.colId === column.id && placeholder.index === index"
+            <template v-for="(card, index) in column.cards" :key="card.id">
+                <div v-if="placeholder.type === 'card' && placeholder.colId === column.id && placeholder.index === index"
                     :style="{ height: placeholder.height + 'px' }"
                     class="w-full transition-all bg-purple-200 border border-purple-400 border-dashed rounded-md">
                 </div>
 
-                <Task :task="task" @dragstart.stop="emit('start-drag', $event, task, 'task', column.id)"
+                <Card :card="card" @dragstart.stop="emit('start-drag', $event, card, 'card', column.id)"
                     @dragend.stop="emit('drag-end', $event)"
-                    @dragover.prevent.stop="emit('task-hover', $event, index, column.id)" />
+                    @dragover.prevent.stop="emit('card-hover', $event, index, column.id)" />
             </template>
 
-            <div v-if="placeholder.type === 'task' && placeholder.colId === column.id && placeholder.index === column.tasks.length"
+            <div v-if="placeholder.type === 'card' && placeholder.colId === column.id && placeholder.index === column.cards.length"
                 :style="{ height: placeholder.height + 'px' }"
                 class="w-full transition-all bg-purple-200 border border-purple-400 border-dashed rounded-md">
             </div>
