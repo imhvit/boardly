@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('board_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
 
-            $table->unique(['board_id', 'position']);
+            $table->index(['board_id', 'position']);
         });
     }
 

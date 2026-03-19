@@ -16,11 +16,14 @@ return new class extends Migration
             $table->string('public_id')->unique();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->unsignedInteger('position')->default(0);
             $table->boolean('is_completed')->default(false);
             $table->timestamp('end_date')->nullable();
             $table->foreignId('column_id')->constrained()->cascadeOnDelete();
             $table->foreignId('owner_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
+
+            $table->index(['column_id', 'position']);
         });
     }
 

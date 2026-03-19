@@ -1,7 +1,9 @@
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { router } from "@inertiajs/vue3";
 
 export function useDrag(initialColumns) {
-    const columns = ref(initialColumns);
+    const columns = ref([...initialColumns]);
+    const pendingRequests = ref(0);
     const dragPayload = ref(null);
     const placeholder = ref({
         type: null,
@@ -10,6 +12,16 @@ export function useDrag(initialColumns) {
         height: 0,
         width: 0,
     });
+
+    watch(
+        () => initialColumns,
+        (newCols) => {
+            if (pendingRequests.value === 0 && !dragPayload.value) {
+                columns.value = [...newCols];
+            }
+        },
+        { deep: true },
+    );
 
     const onDragStart = (e, item, type, fromColId = null) => {
         e.dataTransfer.effectAllowed = "move";
@@ -144,6 +156,8 @@ export function useDrag(initialColumns) {
                 let finalIndex = toIndex;
                 if (fromColId === toColId && cardIndex < toIndex) finalIndex--;
                 toCol.cards.splice(finalIndex, 0, card);
+
+                persistCardOrder(toCol.id, toCol.cards);
             }
         } else if (type === "column") {
             const colIndex = columns.value.findIndex((c) => c.id === data.id);
@@ -152,6 +166,8 @@ export function useDrag(initialColumns) {
                 let finalIndex = toIndex;
                 if (colIndex < toIndex) finalIndex--;
                 columns.value.splice(finalIndex, 0, col);
+
+                persistColumnOrder(columns.value);
             }
         }
 
@@ -167,6 +183,50 @@ export function useDrag(initialColumns) {
             height: 0,
             width: 0,
         };
+    };
+
+    const persistCardOrder = (columnId, updatedCards) => {
+        pendingRequests.value++;
+
+        router.patch(
+            route("app.cards.reorder"),
+            {
+                column_id: columnId,
+                positions: updatedCards.map((card, index) => ({
+                    id: card.id,
+                    position: index,
+                })),
+            },
+            {
+                preserveScroll: true,
+                onFinish: () => {
+                    pendingRequests.value--;
+                },
+                onErrors: (errors) => {
+                    console.error("Error reordering card:", errors);
+                },
+            },
+        );
+    };
+
+    const persistColumnOrder = (updatedColumns) => {
+        pendingRequests.value++;
+
+        router.patch(
+            route("app.columns.reorder"),
+            {
+                positions: updatedColumns.map((col, index) => ({
+                    id: col.id,
+                    position: index,
+                })),
+            },
+            {
+                preserveScroll: true,
+                onFinish: () => {
+                    pendingRequests.value--;
+                },
+            },
+        );
     };
 
     return {

@@ -33,10 +33,11 @@ class BoardController extends Controller
             $view = 'board';
         }
 
-        $board = Board::where('public_id', $public_id)->first();
-        $board->load(['columns' => function ($q) {
-            $q->orderBy('position')->with('cards');
-        }]);
+        $board = Board::where('public_id', $public_id)->with(['columns' => function ($q) {
+            $q->orderBy('position', 'asc')->with(['cards' => function ($query) {
+                $query->orderBy('position', 'asc');
+            }]);
+        }])->firstOrFail();
 
         return Inertia::render('app/boards/Show', [
             'board' => $board,

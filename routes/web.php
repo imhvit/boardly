@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\ColumnController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,6 +21,9 @@ Route::prefix('app')->name('app.')->middleware('auth')->group(function () {
 
     // cards
     Route::get('c/{public_id}/{slug?}', [CardController::class, 'show'])->name('cards.show');
+    Route::patch('/c/reorder', [CardController::class, 'reorder'])->name('cards.reorder');
+    // columns
+    Route::patch('/col/reorder', [ColumnController::class, 'reorder'])->name('columns.reorder');
     // templates
     Route::get('templates', [AppController::class, 'templates'])->name('templates.index');
 });

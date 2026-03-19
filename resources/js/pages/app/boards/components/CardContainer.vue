@@ -2,7 +2,7 @@
 import Card from "./Card.vue";
 import { Plus, MoreHorizontal } from "lucide-vue-next";
 
-defineProps({
+const props = defineProps({
     column: Object,
     placeholder: Object
 });
@@ -18,7 +18,7 @@ const emit = defineEmits(['start-drag', 'card-hover', 'col-hover', 'drop-item', 
 
         <div class="flex items-center justify-between">
             <div class="flex items-center flex-1 gap-1">
-                <h2 class="px-2 text-sm font-medium text-neutral-700">{{ column.title }}</h2>
+                <h2 class="px-2 text-sm font-medium text-neutral-700">{{ column.name }}</h2>
                 <span
                     class="inline-flex items-center justify-center w-4 h-3 text-xs font-medium rounded-full select-none text-neutral-700 bg-neutral-200">
                     {{ column.cards.length }}
