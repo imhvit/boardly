@@ -41,7 +41,7 @@ const initialData = [
             {
                 id: '01ht68k5w...',
                 column_id: '01ht68m9x2a...',
-                title: 'Configurar CI/CD con GitHub Actions',
+                title: 'Configurar A CI/CD con GitHub Actions',
                 description: 'Pipeline para pruebas de Vue y Laravel.',
                 order: 2000,
                 date: '16 abr',
